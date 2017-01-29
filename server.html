@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OMXPlayer Controller</title>
+    <style>
+        body {background: #2b2b2b }
+        h1 {color: #e8bf6a}
+
+    </style>
+</head>
+<body>
+<h1>OMXPlayer Controller</h1>
+
+
+<form method="POST" action="/controller">
+    <button type="submit" name='cmd' value="pause">Pause</button>
+    <button type="submit" name='cmd' value="stop">Stop</button>
+    <button type="submit" name='cmd' value="play">Play</button>
+    <br><br>
+
+    <button type="submit" name='cmd' value="+5sec">+5 sec</button>
+    <button type="submit" name='cmd' value="-5sec">-5 sec</button>
+
+    <button type="submit" name='cmd' value="+30sec">+30sec</button>
+    <button type="submit" name='cmd' value="-30sec">-30sec</button>
+
+    <button type="submit" name='cmd' value="+1min">+1min</button>
+    <button type="submit" name='cmd' value="-1min">-1min</button>
+
+    <button type="submit" name='cmd' value="+10min">10min</button>
+    <button type="submit" name='cmd' value="-10min">10min</button>
+
+    <br><br>
+
+    <button type="submit" name="cmd" value="dark">Dark</button>
+    <button type="submit" name="cmd" value="ligh">Lighter</button>
+
+
+</form>
+
+
+</body>
+</html>
