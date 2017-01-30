@@ -81,30 +81,30 @@ thread.start_new_thread(server_thread, ())
 
 while True:
     if command:
-        if command.value == 'pause':
-            subprocess.Popen(['./dbuscontroll.sh pause'], shell=True)
-
-        elif command.value == 'stop':
-            subprocess.Popen(['./dbuscontroll.sh stop'], shell=True)
-
+        parameter = False
+        if command.value in ['pause', 'stop']:
+            parameter = command.value
         elif command.value == '+5sec':
-            subprocess.Popen(['./dbuscontroll.sh seek 5000000'], shell=True)
+            parameter = 'seek 5000000'
         elif command.value == '-5sec':
-            subprocess.Popen(['./dbuscontroll.sh seek -5000000'], shell=True)
+            parameter = 'seek -5000000'
         elif command.value == '+30sec':
-            subprocess.Popen(['./dbuscontroll.sh seek 30000000'], shell=True)
+            parameter = 'seek 30000000'
         elif command.value == '-30sec':
-            subprocess.Popen(['./dbuscontroll.sh seek -30000000'], shell=True)
+            parameter = 'seek -30000000'
         elif command.value == '+1min':
-            subprocess.Popen(['./dbuscontroll.sh seek 60000000'], shell=True)
+            parameter = 'seek 60000000'
         elif command.value == '-1min':
-            subprocess.Popen(['./dbuscontroll.sh seek -60000000'], shell=True)
+            parameter = 'seek -60000000'
         elif command.value == '+10min':
-            subprocess.Popen(['./dbuscontroll.sh seek 600000000'], shell=True)
+            parameter = 'seek 600000000'
         elif command.value == '-10min':
-            subprocess.Popen(['./dbuscontroll.sh seek -600000000'], shell=True)
+            parameter = 'seek -600000000'
         elif command.value == 'dark':
-            subprocess.Popen(['./dbuscontroll.sh setalpha 150'], shell=True)
+            parameter = 'seek setalpha 150'
         elif command.value == 'light':
-            subprocess.Popen(['./dbuscontroll.sh setalpha 255'], shell=True)
+            parameter = 'seek setalpha 255'
+
+        if parameter:
+            subprocess.Popen(['./dbuscontroll.sh %s' % parameter], shell=True)	
         command = False
