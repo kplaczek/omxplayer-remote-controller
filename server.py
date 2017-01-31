@@ -4,12 +4,28 @@ from os import curdir, sep
 import subprocess
 import cgi
 import thread
+
 PORT_NUMBER = 8080
 command = False
 
+# dictionary outside of the function so it doesn't rebuild dictionary on every function call
+commands_dictionary = {
+    'pause': 'pause',
+    'stop': 'stop',
+    '+5sec': 'seek 5000000',
+    '-5sec': 'seek -5000000',
+    '+30sec': 'seek 30000000',
+    '-30sec': 'seek -30000000',
+    '+1min': 'seek 60000000',
+    '-1min': 'seek -60000000',
+    '+10min': 'seek 600000000',
+    '-10min': 'seek -600000000',
+    'dark': 'setalpha 150',
+    'light': 'setalpha 255',
+}
+
 
 class ServerHandler(BaseHTTPRequestHandler):
-
     def do_GET(self):
         # Define the default page
         if self.path == "/":
@@ -67,6 +83,10 @@ class ServerHandler(BaseHTTPRequestHandler):
             return
 
 
+def get_command(post_parameter):
+    return commands_dictionary.get(post_parameter, False)
+
+
 def server_thread():
     try:
         server = HTTPServer(('', PORT_NUMBER), ServerHandler)
@@ -79,32 +99,11 @@ def server_thread():
 
 thread.start_new_thread(server_thread, ())
 
+
 while True:
     if command:
-        parameter = False
-        if command.value in ['pause', 'stop']:
-            parameter = command.value
-        elif command.value == '+5sec':
-            parameter = 'seek 5000000'
-        elif command.value == '-5sec':
-            parameter = 'seek -5000000'
-        elif command.value == '+30sec':
-            parameter = 'seek 30000000'
-        elif command.value == '-30sec':
-            parameter = 'seek -30000000'
-        elif command.value == '+1min':
-            parameter = 'seek 60000000'
-        elif command.value == '-1min':
-            parameter = 'seek -60000000'
-        elif command.value == '+10min':
-            parameter = 'seek 600000000'
-        elif command.value == '-10min':
-            parameter = 'seek -600000000'
-        elif command.value == 'dark':
-            parameter = 'seek setalpha 150'
-        elif command.value == 'light':
-            parameter = 'seek setalpha 255'
+        parameter = get_command(command.value)
 
         if parameter:
-            subprocess.Popen(['./dbuscontroll.sh %s' % parameter], shell=True)	
+            subprocess.Popen(['./dbuscontroll.sh %s' % parameter], shell=True)
         command = False
